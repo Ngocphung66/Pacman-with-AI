@@ -288,6 +288,10 @@ class CornersProblem(search.SearchProblem):
         # Please add any code here which you would like to use
         # in initializing the problem
         "*** YOUR CODE HERE ***"
+        self.unVisitedCorner = []
+
+        for corner in self.corners:
+            self.unVisitedCorner.append(corner)
 
     def getStartState(self):
         """
@@ -325,6 +329,16 @@ class CornersProblem(search.SearchProblem):
             #   hitsWall = self.walls[nextx][nexty]
 
             "*** YOUR CODE HERE ***"
+            x, y = state[0]
+            visited = state[1]
+            dx, dy = Actions.directionToVector(action)
+            nextx, nexty = int(x + dx), int(y + dy)
+
+            if not self.walls[nextx][nexty]:
+                nextState = (nextx, nexty)
+                if nextState in self.corners and nextState not in state[1]:
+                    visited += (nextState)
+                successors.append(((nextState, visited), action, 1))
 
         self._expanded += 1 # DO NOT CHANGE
         return successors
